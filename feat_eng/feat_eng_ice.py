@@ -20,7 +20,7 @@ wet_enough = (
 )
 
 # Threshold for cold is less than or equal to 36º
-cold_enough = df["Temperature(F)"] <= 36
+cold_enough = df["Temperature(F)"] <= 34
 
 # Final feature to determine if potential for ice 
 # 1 is likely, 0 is unlikely
