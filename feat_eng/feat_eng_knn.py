@@ -57,7 +57,7 @@ feature_cols = [
     "is_holiday",
     "is_around_holiday"
 ]
-target_col = "Severity"   
+target_col = "severity"   
 
 
 def load_data(csv_path: str):
@@ -70,10 +70,6 @@ def load_data(csv_path: str):
 
     # Drop rows with missing values in these cols
     df = df.dropna(subset=cols_to_use)
-
-    # One hot encode to convert remaining categorical cols to strings
-    dummies = pd.get_dummies(df["county_urbanization_class"], prefix="urban")
-    df = pd.concat([df, dummies], axis=1)
 
     # Make sure all features are numeric
     X = df[feature_cols].to_numpy(dtype=float)
