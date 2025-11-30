@@ -10,7 +10,6 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 # Feature cols
 feature_cols = [
-    "severity",
     "crossing",
     "junction",
     "traffic_signal",
@@ -57,7 +56,7 @@ feature_cols = [
     "is_holiday",
     "is_around_holiday"
 ]
-target_col = "severity"   
+target_col = "severity"
 
 
 def load_data(csv_path: str):
@@ -81,7 +80,7 @@ def load_data(csv_path: str):
 def build_knn_model(k: int):
     # kNN model with manhatten distance
     knn_pipeline = Pipeline(steps=[
-        # Standardize features (mean=0, std=1) 
+        # Standardize features (mean=0, std=1)
         ("scaler", StandardScaler()),
         ("knn", KNeighborsClassifier(
             n_neighbors = k,
@@ -105,7 +104,7 @@ def main():
                         default=0.2,
                         help="fraction of data to use as test set (default 0.2)")
     args = parser.parse_args()
-    
+
     # Loads data
     X, y = load_data(args.data)
 
