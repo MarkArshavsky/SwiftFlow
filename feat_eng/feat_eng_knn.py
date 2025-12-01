@@ -11,7 +11,6 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 # Feature cols
 feature_cols = [
     "crossing",
-    "junction",
     "traffic_signal",
     "class_rural",
     "class_suburban",
@@ -28,14 +27,9 @@ feature_cols = [
     "weath_clear_fair",
     "weath_cloudy",
     "weath_low_visibility",
-    "weath_other_hazardous",
-    "weath_rain",
     "weath_storm",
-    "weath_winter_precip",
     "time_sin",
     "time_cos",
-    "dow_Friday",
-    "dow_Monday",
     "dow_Saturday",
     "dow_Sunday",
     "dow_Thursday",
@@ -48,20 +42,19 @@ feature_cols = [
     "tw_full_night",
     "humidity",
     "vis_clear",
-    "vis_reduced",
-    "vis_limited",
     "vis_danger",
-    "is_ice_potential",
     "temperature_f",
-    "is_holiday",
-    "is_around_holiday"
+    "is_around_holiday",
 ]
 target_col = "severity"
 
 
-def load_data(csv_path: str):
+def load_data(csv_path: str, sample: int = None):
     # Load dataset with engineered features and return X, y.
     df = pd.read_csv(csv_path)
+
+    if sample:
+        df = df.sample(n=sample)
 
     # Keep only the columns we care about (features + target)
     cols_to_use = feature_cols + [target_col]
@@ -99,6 +92,10 @@ def main():
     parser.add_argument("--data",
                         default="us_accidents_features.csv",
                         help="CSV filename containing engineered features + Severity")
+    parser.add_argument("--sample",
+                        type=int,
+                        default=None,
+                        help="Number of random data samples to use (if unspecified, use full dataset)")
     parser.add_argument("--test_size",
                         type=float,
                         default=0.2,
@@ -106,7 +103,7 @@ def main():
     args = parser.parse_args()
 
     # Loads data
-    X, y = load_data(args.data)
+    X, y = load_data(args.data, sample=args.sample)
 
     # Train/test split
     X_train, X_test, y_train, y_test = train_test_split(
